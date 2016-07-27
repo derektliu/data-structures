@@ -6,11 +6,15 @@ var Stack = function() {
 
   // Implement the methods below
   someInstance.push = function(value) {
-    // want to add to the end of the stack
     storage[Object.keys(storage).length] = value;
   };
 
   someInstance.pop = function() {
+    // remove last item and return it
+    var lastKey = Object.keys(storage).length - 1;
+    var poppedItem = storage[lastKey];
+    delete storage[lastKey];
+    return poppedItem;
   };
 
   someInstance.size = function() {
