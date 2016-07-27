@@ -20,7 +20,15 @@ var stackMethods = {
     this[key] = value;
     this.length++;
   }, 
-  // 'pop' : ???,
+  'pop': function (argument) {
+    if (this.length > 0) {
+      var key = this.length - 1;
+      var popped = this[key];
+      delete this[key];
+      this.length--;
+      return popped;
+    }
+  },
   'size': function () {
     return this.length;
   }
