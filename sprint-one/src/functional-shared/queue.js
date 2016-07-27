@@ -24,10 +24,18 @@ var queueMethods = {
 
   'enqueue': function(value) {
     this.length++;
-    this[this.start] = value;
+    this[this.end] = value;
     this.end++;
   },
-  'dequeue': function() {},
+  'dequeue': function() {
+    if (this.length > 0) {
+      this.length--;
+      var item = this[this.start];
+      delete this[this.start];
+      this.start++;
+      return item;
+    }
+  },
   'size': function() {
     return this.length;
   }
