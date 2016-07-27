@@ -22,7 +22,11 @@ var Queue = function() {
 
 var queueMethods = {
 
-  'enqueue': function(value) {},
+  'enqueue': function(value) {
+    this.length++;
+    this[this.start] = value;
+    this.end++;
+  },
   'dequeue': function() {},
   'size': function() {
     return this.length;
