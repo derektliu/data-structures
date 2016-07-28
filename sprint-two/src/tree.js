@@ -9,11 +9,23 @@ var Tree = function(value) {
 var treeMethods = {};
 
 treeMethods.addChild = function(value) {
-  // your code here
-  newTree.children = null;  // fix me
+  var node = Tree(value);
+  this.children.push(node);
 };
 
 treeMethods.contains = function(target) {
+  var found = false;
+
+  var search = function (node, target) {
+    if (node.value === target) { found = true; }
+    for (var i = 0; i < node.children.length; i++) {
+      search(node.children[i], target);
+    }
+  };
+
+  search(this, target);
+
+  return found;
 };
 
 
