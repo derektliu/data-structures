@@ -9,16 +9,8 @@ HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
 
   if (!this._storage[index]) {
-    // console.log('create new array');
     this._storage[index] = [];
   }
-  // check if key exist in bucket if so reassign that key to new value
-  // if (this.retrieve(k) !== undefined) {
-  //   this._storage[index]
-  // } else {
-  //   var newTuple = [k, v];
-  //   this._storage[index].push(newTuple);
-  // }
   var foundIndex = false;
   for (var i = 0; i < this._storage[index].length; i++) {
     if (this._storage[index][i][0] === k) {
@@ -45,6 +37,13 @@ HashTable.prototype.retrieve = function(k) {
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
+
+  for (var i = 0; i < this._storage[index].length; i++) {
+    if (this._storage[index][i][0] === k) {
+      this._storage[index].splice(i, 1);
+    }
+  }
+
 };
 
 
