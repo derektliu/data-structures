@@ -2,14 +2,23 @@
 
 // Instantiate a new graph
 var Graph = function() {
+  this.nodes = {};
 };
 
 // Add a node to the graph, passing in the node's value.
 Graph.prototype.addNode = function(node) {
+  this.nodes[node] = [];
 };
 
 // Return a boolean value indicating if the value passed to contains is represented in the graph.
 Graph.prototype.contains = function(node) {
+  // look up, if found === true else false
+  for (var key in this.nodes) {
+    if (Number(key) === node) {
+      return true;
+    }
+  }
+  return false;
 };
 
 // Removes a node from the graph.
@@ -32,8 +41,10 @@ Graph.prototype.removeEdge = function(fromNode, toNode) {
 Graph.prototype.forEachNode = function(cb) {
 };
 
+
 /*
  * Complexity: What is the time complexity of the above functions?
  */
 
 
+//
