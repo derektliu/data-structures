@@ -24,6 +24,17 @@ var LinkedList = function() {
   };
 
   list.contains = function(target) {
+    var currentNode = this.head;
+
+    // loop through until the last node
+    while ( currentNode.next !== null ) {
+      if ( currentNode.value === target ) {
+        return true;
+      }
+      currentNode = currentNode.next;
+    }
+    // final check for 'tail' node since 'tail.next' is null.
+    return currentNode.value === target;
   };
 
   return list;
