@@ -24,12 +24,10 @@ var BinarySearchTree = function(value) {
         node.insert(value, node.right);
       }
     }
-
-
-
   };
 
   tree.contains = function(value, node) {
+
     node = node || this;
 
     if (value === node.value) {
@@ -42,7 +40,39 @@ var BinarySearchTree = function(value) {
     return false;
 
   };
-  tree.depthFirstLog = function() {};
+
+  tree.depthFirstLog = function(func, node) {
+    node = node || this;
+
+    // left side 
+    // keep going down left and checking if left is undef check right
+
+    
+    // if left node exists
+    // if (node.left) {
+    //   func(node.value);
+    //   node.depthFirstLog(func, node.left);
+    // } else if (node.right) {
+    //   func(node.value);
+    //   node.depthFirstLog(func, node.right);
+    // } else {
+    //   return func(node.value);
+    // }
+
+    func(node.value);
+
+    if (node.left) {
+      node.depthFirstLog(func, node.left);
+    } if (node.right) {
+      node.depthFirstLog(func, node.right);
+    }
+    
+
+    // right side
+
+    
+
+  };
 
   return tree;
 };
