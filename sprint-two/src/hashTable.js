@@ -20,7 +20,7 @@ HashTable.prototype.insert = function(k, v) {
     // if key at current tuple equals k
     if (bucket[i][0] === k) {
     // replace value if key exists
-      this._storage.get(index)[1] = v;
+      this._storage.get(index)[i][1] = v;
       found = true;
     }
   }
@@ -42,6 +42,7 @@ HashTable.prototype.retrieve = function(k) {
   // iterate through bucket to check for 'k' key
   for (var i = 0; i < bucket.length; i++) {
     if (bucket[i][0] === k) {
+      // return value if key is found
       return bucket[i][1];
     }
   }
@@ -50,6 +51,7 @@ HashTable.prototype.retrieve = function(k) {
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
+
 };
 
 // var test = new Hashtable();
