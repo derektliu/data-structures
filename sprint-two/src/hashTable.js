@@ -8,6 +8,10 @@ HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
 
   var bucket = this._storage.get(index) || [];
+<<<<<<< HEAD
+=======
+  console.log(bucket);
+>>>>>>> 1122dda4a84299c30ff42bcf78f6c97ce1bd494d
 
   // check for key at bucket
   for (var i = 0; i < bucket.length; i++) {
@@ -20,6 +24,7 @@ HashTable.prototype.insert = function(k, v) {
     }
   }
 
+<<<<<<< HEAD
   // if key is not found, push new tuple to bucket
   bucket.push([k, v]);
   this._size++;
@@ -65,6 +70,15 @@ HashTable.prototype.insert = function(k, v) {
   // this._storage = doubleHash;
     // this._limit = this._limit * 2;
   }
+=======
+  bucket.push([k, v]);
+  this._storage.set(index, bucket);
+  // // if key is not in bucket
+  // if (!found) {
+  //   // push tuple with new key and value to bucket
+  // }
+
+>>>>>>> 1122dda4a84299c30ff42bcf78f6c97ce1bd494d
 };
 
 HashTable.prototype.retrieve = function(k) {
