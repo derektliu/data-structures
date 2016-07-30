@@ -19,7 +19,6 @@ HashTable.prototype.insert = function(k, v) {
       return oldValue;
     }
   }
-
   // if key is not found, push new tuple to bucket
   bucket.push([k, v]);
   this._size++;
@@ -27,43 +26,48 @@ HashTable.prototype.insert = function(k, v) {
   this._storage.set(index, bucket);
 
   // if storage is at 75%
-  console.log('size', this._size);
   if (this._size >= this._limit * .75) {
-    console.log('rehashing');
-    
-    //   this._limit = this._limit * 2;
 
+    /**************** GamerLazer ****************/
     var doubleHash = new HashTable;
     doubleHash._limit = this._limit * 2;
     doubleHash._storage = LimitedArray(doubleHash._limit);
     var insertDoubleHash = this.insert.bind(doubleHash);
-      // insert every tuple in OGstorage to doubleHash
 
     this._storage.each(function(buck, key, collection) {
-      // console.log('bucket', buck, 'key', key, 'collection', collection );
       if (buck) {
-
         for (var i = 0; i < buck.length; i++) {
-          // console.log('bucket[i]', i, bucket[i]);
           var key = buck[i][0];
           var value = buck[i][1];
-          // var ind = getIndexBelowMaxForKey(key, 16);
           insertDoubleHash(key, value);
-          // if (!doubleHash[ind]) {
-          //   doubleHash[ind] = [];
-          // }
-
-          // doubleHash[ind].push([key, value]);
-
-          // console.log([key, value], doubleHash[ind]);
         }
       }
     });
-
     this._storage = doubleHash._storage;
     this._limit = this._limit * 2;
-  // this._storage = doubleHash;
-    // this._limit = this._limit * 2;
+
+    /************** Emo Derek *****************/
+
+    // var newLimit = this._limit * 2;
+    // var doubleHash = LimitedArray(newLimit);
+
+    // this._storage.each(function(buck, key, collection) {
+    //   if (buck) {
+    //     for (var i = 0; i < buck.length; i++) {
+    //       var key = buck[i][0];
+    //       var value = buck[i][1];
+    //       var ind = getIndexBelowMaxForKey(key, newLimit);
+    //       var tempBucket = doubleHash.get(ind) || [];
+
+    //       tempBucket.push([key, value]);
+    //       doubleHash.set(ind, tempBucket);
+    //     }
+    //   }
+    // });
+
+    // this._limit = newLimit;
+    // this._storage = doubleHash;
+
   }
 };
 
@@ -94,8 +98,6 @@ HashTable.prototype.remove = function(k) {
     }
   }
 };
-
-// var test = new Hashtable();
 
 /*
  * Complexity: What is the time complexity of the above functions?
