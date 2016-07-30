@@ -32,21 +32,23 @@ HashTable.prototype.insert = function(k, v) {
     var doubleHash = new HashTable;
     doubleHash._limit = this._limit * 2;
     doubleHash._storage = LimitedArray(doubleHash._limit);
-    var insertDoubleHash = this.insert.bind(doubleHash);
+    // var insertDoubleHash = this.insert.bind(doubleHash);
 
     this._storage.each(function(buck, key, collection) {
       if (buck) {
         for (var i = 0; i < buck.length; i++) {
           var key = buck[i][0];
           var value = buck[i][1];
-          insertDoubleHash(key, value);
+          // insertDoubleHash(key, value);
+          doubleHash.insert(key, value);
         }
       }
     });
+
     this._storage = doubleHash._storage;
     this._limit = this._limit * 2;
 
-    /************** Emo Derek *****************/
+    /************** Derek *****************/
 
     // var newLimit = this._limit * 2;
     // var doubleHash = LimitedArray(newLimit);
