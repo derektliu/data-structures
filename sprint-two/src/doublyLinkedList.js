@@ -1,30 +1,47 @@
-var DoublyLinkedlist = function() {
-  var doublyLinkedlist = {};
-  doublyLinkedlist.head = null;
-  doublyLinkedlist.tail = null;
+var DoublyLinkedList = function() {
+  var doublyLinkedList = {};
+  doublyLinkedList.head = null;
+  doublyLinkedList.tail = null;
 
-  doublyLinkedlist.addToTail = function(value) {
-    if (this.head === null) {
-      var start = Node(value);
-      this.head = start;
-      this.tail = start;
+  doublyLinkedList.addToTail = function(value) {
+    var newTail = Node(value);
+    if (this.tail === null) {
+      this.head = newTail;
+      this.tail = newTail;
     } else {
-      var newTail = Node(value);
-      this.tail.next = newTail;
-      newTail.previous = this.tail;
+      var oldTail = this.tail;
+      oldTail.next = newTail;
+      newTail.previous = oldTail;
       this.tail = newTail;
     }
   };
 
-  doublyLinkedlist.removeHead = function() {
+  doublyLinkedList.addToHead = function (value) {
+    var newHead = Node(value);
+    if (this.head === null) {
+      this.head = newHead;
+      this.tail = newHead;
+    } else {
+      var oldHead = this.head;
+      oldHead.previous = newHead;
+      newHead.next = oldHead;
+      this.head = newHead;
+    }
+  };
+
+  doublyLinkedList.removeHead = function() {
     var headNode = this.head;
-    var nextNode = this.head.next;
-    delete this.head;
-    this.head = nextNode;
+    this.head = this.head.next;
     return headNode.value;
   };
 
-  doublyLinkedlist.contains = function(target) {
+  doublyLinkedList.removeTail = function () {
+    var tailNode = this.tail;
+    this.tail = this.tail.previous;
+    return tailNode.value;
+  };
+
+  doublyLinkedList.contains = function(target) {
     var currentNode = this.head;
 
     // loop through until the last node
@@ -38,12 +55,7 @@ var DoublyLinkedlist = function() {
     return currentNode.value === target;
   };
 
-  doublyLinkedlist.addToHead = function () {};
-
-  doublyLinkedlist.removeTail = function () {
-  };
-
-  return doublyLinkedlist;
+  return doublyLinkedList;
 };
 
 var Node = function(value) {
