@@ -27,57 +27,17 @@ HashTable.prototype.insert = function(k, v) {
 
   // if storage is at 75%
   if (this._size >= this._limit * .75) {
-
-    /**************** GamerLazer ****************/
-    var doubleHash = new HashTable;
-    doubleHash._limit = this._limit * 2;
-    doubleHash._storage = LimitedArray(doubleHash._limit);
-    // var insertDoubleHash = this.insert.bind(doubleHash);
-
-    this._storage.each(function(buck, key, collection) {
-      if (buck) {
-        for (var i = 0; i < buck.length; i++) {
-          var key = buck[i][0];
-          var value = buck[i][1];
-          // insertDoubleHash(key, value);
-          doubleHash.insert(key, value);
-        }
-      }
-    });
-
-    this._storage = doubleHash._storage;
-    this._limit = this._limit * 2;
-
-    /************** Derek *****************/
-
-    // var newLimit = this._limit * 2;
-    // var doubleHash = LimitedArray(newLimit);
-
-    // this._storage.each(function(buck, key, collection) {
-    //   if (buck) {
-    //     for (var i = 0; i < buck.length; i++) {
-    //       var key = buck[i][0];
-    //       var value = buck[i][1];
-    //       var ind = getIndexBelowMaxForKey(key, newLimit);
-    //       var tempBucket = doubleHash.get(ind) || [];
-
-    //       tempBucket.push([key, value]);
-    //       doubleHash.set(ind, tempBucket);
-    //     }
-    //   }
-    // });
-
-    // this._limit = newLimit;
-    // this._storage = doubleHash;
-
+    this._resize(this._limit * 2);
   }
+
+  return undefined;
 };
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
 
   // get bucket at index
-  var bucket = this._storage.get(index);
+  var bucket = this._storage.get(index) || [];
 
   // iterate through bucket to check for 'k' key
   for (var i = 0; i < bucket.length; i++) {
@@ -91,7 +51,7 @@ HashTable.prototype.retrieve = function(k) {
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
 
-  var bucket = this._storage.get(index);
+  var bucket = this._storage.get(index) || [];
 
   for (var i = 0; i < bucket.length; i++) {
     if (bucket[i][0] === k) {
@@ -99,6 +59,59 @@ HashTable.prototype.remove = function(k) {
       this._size--;
     }
   }
+
+  if (this._size <= this._limit * .25) {
+    this._resize(this._limit / 2);
+  }
+
+};
+
+HashTable.prototype._resize = function(newLimit) {
+
+  newLimit = Math.max(newLimit, 8);
+  if (newLimit === this._limit) { return; }
+
+  this._limit = newLimit;
+
+    /**************** GamerLazer ****************/
+  // var rehash = new HashTable;
+  
+  // rehash._storage = LimitedArray(newLimit);
+  // rehash._limit = newLimit;
+  // // var insertDoubleHash = this.insert.bind(rehash);
+
+  // this._storage.each(function(bucket) {
+  //   if (bucket) {
+  //     for (var i = 0; i < bucket.length; i++) {
+  //       var tuple = bucket[i];
+  //       // insertDoubleHash(key, value);
+  //       rehash.insert(tuple[0], tuple[1]);
+  //     }
+  //   }
+  // });
+
+  // this._storage = rehash._storage;
+  
+  /************** Derek *****************/
+
+  var rehash = LimitedArray(newLimit);
+
+  this._storage.each(function(bucket) {
+    if (bucket) {
+      for (var i = 0; i < bucket.length; i++) {
+        var tuple = bucket[i];
+        var newIndex = getIndexBelowMaxForKey(tuple[0], newLimit);
+        var tempBucket = rehash.get(newIndex) || [];
+
+        tempBucket.push(tuple);
+        rehash.set(newIndex, tempBucket);
+      }
+    }
+  });
+
+  this._limit = newLimit;
+  this._storage = rehash;
+
 };
 
 /*
